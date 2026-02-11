@@ -39,7 +39,8 @@ export class FathomMCP extends McpAgent<Env, State, Props> {
       {
         description:
           "List meetings recorded by or shared with the authenticated user. " +
-          "Supports pagination and filtering by domain, date range, recorder, and team.",
+          "Supports pagination and filtering by domain, date range, recorder, and team. " +
+          "This is also the ONLY way to get structured action items — set include_action_items=true.",
         inputSchema: {
           cursor: z
             .string()
@@ -75,7 +76,11 @@ export class FathomMCP extends McpAgent<Env, State, Props> {
             .boolean()
             .optional()
             .default(false)
-            .describe("Include action items for each meeting"),
+            .describe(
+              "Include structured action items for each meeting. Returns description, " +
+              "assignee (name/email), recording timestamp, playback URL, and completion status. " +
+              "This is the only way to get action items — they are NOT available via get_summary."
+            ),
           include_crm_matches: z
             .boolean()
             .optional()
@@ -100,7 +105,9 @@ export class FathomMCP extends McpAgent<Env, State, Props> {
       "get_summary",
       {
         description:
-          "Get the AI-generated summary for a specific meeting recording.",
+          "Get the AI-generated summary for a specific meeting recording. " +
+          "Returns a markdown narrative of the meeting. " +
+          "NOTE: This does NOT include structured action items — use list_meetings with include_action_items=true instead.",
         inputSchema: {
           recording_id: z.number().describe("Meeting recording ID"),
         },
@@ -274,8 +281,8 @@ Connected via OAuth. Your Fathom account data is accessible through the tools be
 ## Available Tools
 
 ### Meetings
-- **list_meetings** — List meetings with filtering by domain, date range, recorder, team
-- **get_summary** — Get the AI-generated summary for a recording
+- **list_meetings** — List meetings with filtering. **Set include_action_items=true to get structured action items** (assignee, timestamp, playback URL, completion status)
+- **get_summary** — Get the AI-generated markdown summary (does NOT include structured action items)
 - **get_transcript** — Get the full transcript for a recording
 
 ### Teams
