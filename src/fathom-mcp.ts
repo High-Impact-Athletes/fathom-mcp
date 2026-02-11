@@ -2,6 +2,7 @@ import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { FathomClient } from "./lib/fathom-client";
+import { formatTranscript } from "./lib/formatters";
 import type { Env, Props, State } from "./types";
 
 export class FathomMCP extends McpAgent<Env, State, Props> {
@@ -119,16 +120,22 @@ export class FathomMCP extends McpAgent<Env, State, Props> {
       {
         description:
           "Get the full transcript for a specific meeting recording, " +
-          "including speaker names and timestamps.",
+          "including speaker names and timestamps. " +
+          "Long transcripts are paginated (200 segments per page).",
         inputSchema: {
           recording_id: z.number().describe("Meeting recording ID"),
+          page: z
+            .number()
+            .optional()
+            .default(1)
+            .describe("Page number for long transcripts (200 segments per page)"),
         },
       },
-      async ({ recording_id }) => {
+      async ({ recording_id, page }) => {
         const result = await fathom.getTranscript(recording_id);
         return {
           content: [
-            { type: "text" as const, text: JSON.stringify(result, null, 2) },
+            { type: "text" as const, text: formatTranscript(result, { page }) },
           ],
         };
       }

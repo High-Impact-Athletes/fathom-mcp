@@ -1,4 +1,7 @@
-import { FATHOM_API_BASE } from "../types";
+import {
+  FATHOM_API_BASE,
+  type TranscriptResponse,
+} from "../types";
 
 /**
  * Lightweight Fathom API client using Workers' built-in fetch.
@@ -116,7 +119,7 @@ export class FathomClient {
   }
 
   async getTranscript(recordingId: number) {
-    return this.request<unknown>(
+    return this.request<TranscriptResponse>(
       "GET",
       `/recordings/${recordingId}/transcript`
     );

@@ -26,6 +26,54 @@ export interface FathomTokenResponse {
   token_type: string;
 }
 
+// --- Fathom API response types ---
+
+export interface TranscriptSpeaker {
+  display_name: string;
+  matched_calendar_invitee_email?: string;
+}
+
+export interface TranscriptEntry {
+  speaker: TranscriptSpeaker;
+  text: string;
+  timestamp: string;
+}
+
+export interface TranscriptResponse {
+  transcript: TranscriptEntry[];
+}
+
+export interface SummaryResponse {
+  summary: {
+    markdown_formatted: string;
+    [key: string]: unknown;
+  };
+}
+
+export interface MeetingAttendee {
+  display_name: string;
+  email?: string;
+}
+
+export interface MeetingItem {
+  id: number;
+  title: string;
+  created_at: string;
+  duration_in_seconds?: number;
+  recorded_by?: {
+    display_name: string;
+    email?: string;
+  };
+  calendar_invitees?: MeetingAttendee[];
+  [key: string]: unknown;
+}
+
+export interface MeetingsListResponse {
+  meetings: MeetingItem[];
+  has_more: boolean;
+  cursor?: string;
+}
+
 export const FATHOM_API_BASE = "https://api.fathom.ai/external/v1";
 export const FATHOM_OAUTH_AUTHORIZE = "https://fathom.video/external/v1/oauth2/authorize";
 export const FATHOM_OAUTH_TOKEN = "https://fathom.video/external/v1/oauth2/token";
