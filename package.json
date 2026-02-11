@@ -1,0 +1,23 @@
+{
+  "name": "fathom-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remote MCP server for Fathom AI on Cloudflare Workers with OAuth",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "agents": "^0.4.0",
+    "@cloudflare/workers-oauth-provider": "^0.2.2",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "hono": "^4.7.10",
+    "zod": "^3.25.23"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250620.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.18.0"
+  }
+}

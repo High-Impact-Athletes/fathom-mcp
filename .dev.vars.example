@@ -1,0 +1,6 @@
+# Fathom OAuth credentials — register at https://developers.fathom.ai/oauth
+FATHOM_CLIENT_ID=your_fathom_client_id
+FATHOM_CLIENT_SECRET=your_fathom_client_secret
+
+# Cookie encryption key — generate with: openssl rand -hex 32
+COOKIE_ENCRYPTION_KEY=your_64_char_hex_key

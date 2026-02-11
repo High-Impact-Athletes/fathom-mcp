@@ -1,0 +1,27 @@
+{
+  "name": "fathom-mcp",
+  // "account_id": "<YOUR_CLOUDFLARE_ACCOUNT_ID>",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MCP_OBJECT",
+        "class_name": "FathomMCP"
+      }
+    ]
+  },
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "<OAUTH_KV_ID>"
+    }
+  ],
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["FathomMCP"]
+    }
+  ]
+}
