@@ -9,6 +9,13 @@
     "url": "https://github.com/High-Impact-Athletes/fathom-mcp.git"
   },
   "description": "Remote MCP server for Fathom AI on Cloudflare Workers with OAuth",
+  "deploy": {
+    "secrets": {
+      "FATHOM_CLIENT_ID": "Client ID from your Fathom OAuth app (fathom.video → Developer settings)",
+      "FATHOM_CLIENT_SECRET": "Client Secret from your Fathom OAuth app",
+      "COOKIE_ENCRYPTION_KEY": "Generate with: openssl rand -hex 32"
+    }
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

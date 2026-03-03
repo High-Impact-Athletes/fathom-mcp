@@ -4,6 +4,8 @@ A remote [MCP](https://modelcontextprotocol.io) server on Cloudflare Workers tha
 
 Users add a URL, authenticate with Fathom, and immediately access their meeting data — no API keys, no config files.
 
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/High-Impact-Athletes/fathom-mcp)
+
 ## Available Tools
 
 | Tool | Description |
@@ -18,11 +20,21 @@ Users add a URL, authenticate with Fathom, and immediately access their meeting 
 
 ---
 
-## Self-hosting (for developers)
+## Deploy
 
-Everything below is for deploying your own instance of this server.
+### One-click deploy
 
-### Prerequisites
+1. **Register an OAuth app with Fathom** at [fathom.video](https://fathom.video) (Developer settings) — you'll need the Client ID and Client Secret
+2. Generate a cookie encryption key: `openssl rand -hex 32`
+3. Click the deploy button above — you'll be prompted for all three values
+4. Set your redirect URI in Fathom to `https://<your-worker>.workers.dev/callback/fathom`
+
+### Manual deploy
+
+<details>
+<summary>If you prefer using the CLI</summary>
+
+#### Prerequisites
 
 1. **Register an OAuth app with Fathom** at [fathom.video](https://fathom.video) (under Developer settings)
    - Get your `FATHOM_CLIENT_ID` and `FATHOM_CLIENT_SECRET`
@@ -31,7 +43,7 @@ Everything below is for deploying your own instance of this server.
      - Local dev: `http://localhost:8787/callback/fathom`
 2. **Cloudflare account** with Workers enabled (free tier is sufficient)
 
-### Setup
+#### Setup
 
 ```bash
 # Install dependencies
@@ -56,7 +68,7 @@ FATHOM_CLIENT_SECRET=your_client_secret
 COOKIE_ENCRYPTION_KEY=your_generated_hex_key
 ```
 
-### Deploy
+#### Deploy
 
 ```bash
 # Create KV namespace
@@ -72,7 +84,7 @@ npx wrangler secret put COOKIE_ENCRYPTION_KEY
 npm run deploy
 ```
 
-### Local Development
+#### Local Development
 
 > Most people won't need this — just deploy and use the hosted version.
 
@@ -81,6 +93,8 @@ npm run dev
 ```
 
 This starts `wrangler dev` with local Durable Object and KV emulation. Requires the `.dev.vars` file from the Setup step above.
+
+</details>
 
 ## Architecture
 
