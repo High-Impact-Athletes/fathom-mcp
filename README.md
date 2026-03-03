@@ -99,4 +99,6 @@ The Fathom API restricts `include_summary` and `include_transcript` on the `/mee
 
 ## License
 
-MIT
+Apache 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+Built by [High Impact Athletes](https://highimpactathletes.org).

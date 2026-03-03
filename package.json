@@ -1,7 +1,13 @@
 {
   "name": "fathom-mcp",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "license": "Apache-2.0",
+  "author": "High Impact Athletes (https://highimpactathletes.org)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/High-Impact-Athletes/fathom-mcp.git"
+  },
   "description": "Remote MCP server for Fathom AI on Cloudflare Workers with OAuth",
   "scripts": {
     "dev": "wrangler dev",

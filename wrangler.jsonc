@@ -15,7 +15,7 @@
   "kv_namespaces": [
     {
       "binding": "OAUTH_KV",
-      "id": "589b7546ea444a9ca1662669e116de4b"
+      "id": "<OAUTH_KV_ID>"
     }
   ],
   "migrations": [
