@@ -28,9 +28,11 @@ Token refresh is automatic. Users never re-authenticate unless they revoke acces
 
 ## Prerequisites
 
-1. **Register an OAuth app with Fathom** at [developers.fathom.ai/oauth](https://developers.fathom.ai/oauth)
-   - Get `FATHOM_CLIENT_ID` and `FATHOM_CLIENT_SECRET`
-   - Set redirect URI to `https://<your-worker>.workers.dev/callback/fathom`
+1. **Register an OAuth app with Fathom** at [fathom.video](https://fathom.video) (under Developer settings)
+   - Get your `FATHOM_CLIENT_ID` and `FATHOM_CLIENT_SECRET`
+   - Add redirect URIs:
+     - Production: `https://<your-worker>.workers.dev/callback/fathom`
+     - Local dev: `http://localhost:8787/callback/fathom`
 2. **Cloudflare account** with Workers enabled (free tier is sufficient)
 
 ## Setup
@@ -43,12 +45,19 @@ npm install
 cp .dev.vars.example .dev.vars
 ```
 
-Edit `.dev.vars` with your Fathom OAuth credentials and a cookie encryption key:
+Generate a cookie encryption key and edit `.dev.vars` with your credentials:
+
+```bash
+# Generate a random encryption key
+openssl rand -hex 32
+```
+
+Then fill in `.dev.vars`:
 
 ```
 FATHOM_CLIENT_ID=your_client_id
 FATHOM_CLIENT_SECRET=your_client_secret
-COOKIE_ENCRYPTION_KEY=$(openssl rand -hex 32)
+COOKIE_ENCRYPTION_KEY=your_generated_hex_key
 ```
 
 ## Local Development
@@ -64,9 +73,9 @@ This starts `wrangler dev` with local Durable Object and KV emulation.
 ```bash
 # Create KV namespace
 npx wrangler kv namespace create "OAUTH_KV"
-# Copy the ID into wrangler.jsonc
+# Copy the returned ID into wrangler.jsonc → kv_namespaces → id
 
-# Set secrets
+# Set production secrets (you'll be prompted to paste each value)
 npx wrangler secret put FATHOM_CLIENT_ID
 npx wrangler secret put FATHOM_CLIENT_SECRET
 npx wrangler secret put COOKIE_ENCRYPTION_KEY
@@ -91,7 +100,7 @@ Cloudflare Worker
 Fathom API (api.fathom.ai/external/v1)
 ```
 
-The worker acts as an OAuth proxy: it authenticates users via Fathom's OAuth flow, stores their access/refresh tokens in the MCP grant props, and uses them to call the Fathom API on each tool invocation. Token refresh is handled automatically via `tokenExchangeCallback`.
+The worker acts as an OAuth proxy: it authenticates users via Fathom's OAuth flow, securely stores their access/refresh tokens, and uses them to call the Fathom API on each tool invocation. Token refresh is handled automatically.
 
 ## OAuth Note
 
