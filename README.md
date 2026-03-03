@@ -4,16 +4,6 @@ A remote [MCP](https://modelcontextprotocol.io) server on Cloudflare Workers tha
 
 Users add a URL, authenticate with Fathom, and immediately access their meeting data — no API keys, no config files.
 
-## User Experience
-
-1. Open Claude Desktop > **Settings > Connectors**
-2. Add: `https://<your-worker>.workers.dev/mcp`
-3. Click **Connect** — redirected to Fathom's OAuth consent screen
-4. Click **Allow**
-5. Done. All tools work immediately.
-
-Token refresh is automatic. Users never re-authenticate unless they revoke access.
-
 ## Available Tools
 
 | Tool | Description |
@@ -26,7 +16,13 @@ Token refresh is automatic. Users never re-authenticate unless they revoke acces
 | `create_webhook` | Create a webhook for meeting notifications |
 | `delete_webhook` | Delete a webhook by ID |
 
-## Prerequisites
+---
+
+## Self-hosting (for developers)
+
+Everything below is for deploying your own instance of this server.
+
+### Prerequisites
 
 1. **Register an OAuth app with Fathom** at [fathom.video](https://fathom.video) (under Developer settings)
    - Get your `FATHOM_CLIENT_ID` and `FATHOM_CLIENT_SECRET`
@@ -35,7 +31,7 @@ Token refresh is automatic. Users never re-authenticate unless they revoke acces
      - Local dev: `http://localhost:8787/callback/fathom`
 2. **Cloudflare account** with Workers enabled (free tier is sufficient)
 
-## Setup
+### Setup
 
 ```bash
 # Install dependencies
@@ -60,15 +56,7 @@ FATHOM_CLIENT_SECRET=your_client_secret
 COOKIE_ENCRYPTION_KEY=your_generated_hex_key
 ```
 
-## Local Development
-
-```bash
-npm run dev
-```
-
-This starts `wrangler dev` with local Durable Object and KV emulation.
-
-## Deploy
+### Deploy
 
 ```bash
 # Create KV namespace
@@ -83,6 +71,16 @@ npx wrangler secret put COOKIE_ENCRYPTION_KEY
 # Deploy
 npm run deploy
 ```
+
+### Local Development
+
+> Most people won't need this — just deploy and use the hosted version.
+
+```bash
+npm run dev
+```
+
+This starts `wrangler dev` with local Durable Object and KV emulation. Requires the `.dev.vars` file from the Setup step above.
 
 ## Architecture
 
